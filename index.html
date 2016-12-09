@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>QA Socket IO Test</title>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io.connect("http://localhost:8080");
+    </script>
+</head>
+
+<script>
+    var server = io.connect("http://localhost:8080");
+
+  server.on('testing', function(testing){
+      alert("Received: " + testing);
+  });
+  
+  server.on('question', function(question){
+    console.log("New question: " + question);
+    //insertQuestion(question);
+  });
+
+  server.on('answer', function(question, answer){
+      alert("new answer!");
+  });
+</script>
+
+<script>
+$(document).ready(function(){
+ $("#send-question").click(function(){
+     var questionText = $("#question").val();
+     //alert(questionText);
+     server.emit('question', questionText);
+ });
+});
+</script>
+
+<body>
+    <header>
+        <h1>QA Socket IO Test</h1>
+    </header>
+    <main>
+        <input id="question" type="text">
+        <input id="send-question" type="button" value="Send question">
+
+    </main>
+
+</body>
+
+</html>
